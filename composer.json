@@ -1,0 +1,28 @@
+{
+    "name": "webup/laravel-cms",
+    "description": "Basic CMS Feature for Laravel.",
+    "keywords": ["agence-webup", "webup", "laravel", "cms"],
+    "homepage": "https://github.com/agence-webup/laravel-cms",
+    "license": "MIT",
+    "authors": [{
+        "name": "Valentin Orban",
+        "email": "valentin@agence-webup.com",
+        "homepage": "https://agence-webup.com/",
+        "role": "Developer"
+    }],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Webup\\CMS\\": "src/"
+        }
+    },
+    "autoload-dev": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Webup\\CMS\\CMSServiceProvider"
+            ]
+        }
+    }
+}
