@@ -32,14 +32,15 @@ appropriate in this situation. For example, `cgv` becomes:
 - `cgv.shipping`
 - ...
 
-## Local setup
+## Local dev setup
 
 1. Create a Laravel project (you can use our
    [skeleton](https://github.com/agence-webup/laravel-skeleton)).
 2. In this project, create a `webup` folder.
 3. `cd ./webup`
 4. `git clone git@github.com:agence-webup/laravel-cms.git`
-5. Inside `composer.json`:
+5. `cd` to your project root
+6. Inside `composer.json`:
     ```json
     {
         // ...
@@ -50,7 +51,6 @@ appropriate in this situation. For example, `cgv` becomes:
     }
     ```
 
-6. `cd` to your project root
 7. (if webup team) `pliz bash app`
 8. `composer require webup/laravel-cms`
 
