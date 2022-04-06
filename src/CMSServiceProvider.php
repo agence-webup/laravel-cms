@@ -6,15 +6,12 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 
-use Webup\CMS\Blade\Cms;
-use Webup\CMS\Blade\EndCms;
-
 class CMSServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         $this->registerRoutes();
-        $this->registerBlade();
+        Blade::componentNamespace('Webup\\CMS\\View\\Components', 'cms');
 
         $this->publishConfig();
         $this->publishPublic();
@@ -24,17 +21,6 @@ class CMSServiceProvider extends ServiceProvider
     public function register()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
-    }
-
-    protected function registerBlade()
-    {
-        Blade::directive(Cms::DIRECTIVE, function ($expression) {
-            return Cms::generate($expression);
-        });
-
-        Blade::directive(EndCms::DIRECTIVE, function ($expression) {
-            return EndCms::generate($expression);
-        });
     }
 
     protected function publishPublic()
@@ -48,7 +34,7 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/cms.php' => config_path('cms.php'),
-        ], 'config');
+        ], 'cms-config');
     }
 
     protected function publishMigration()
@@ -56,7 +42,12 @@ class CMSServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations/create_cms_entries_table.php.stub'
                 => database_path('/migrations/' . date('Y_m_d_His', time()) . '_create_cms_entries_table.php'),
-        ], 'migrations');
+        ], 'cms-migrations');
+
+        $this->publishes([
+            __DIR__ . '/../database/migrations/create_cms_permissions.php.stub'
+                => database_path('/migrations/' . date('Y_m_d_His', time()) . '_create_cms_permissions.php'),
+        ], 'cms-permission-migrations');
     }
 
     protected function registerRoutes()
@@ -70,7 +61,8 @@ class CMSServiceProvider extends ServiceProvider
     {
         return [
             'prefix' => config('cms.prefix'),
-            'middleware' => config('cms.middleware'),
+            'as' => config('cms.prefix') . '.',
+            'middleware' => ['web', config('cms.guardMiddleware', 'auth:admin')],
         ];
     }
 }

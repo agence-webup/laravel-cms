@@ -56,6 +56,15 @@ appropriate in this situation. For example, `cgv` becomes:
 
 ## Notes
 
+### Components and directives
+
+We are going to use components:
+```html
+<x-cms::content key="cgv.preambule">
+    Default cgv.
+</x-cms:content>
+```
+
 ### I18N
 
 We will use `App::currentLocale();` to figure out the current locale.
