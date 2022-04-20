@@ -10,8 +10,9 @@
         "homepage": "https://agence-webup.com/",
         "role": "Developer"
     }],
-    "require": {},
-    "require-dev": {},
+    "require": {
+        "livewire/livewire": "^2.10"
+    },
     "autoload": {
         "psr-4": {
             "Webup\\CMS\\": "src/"

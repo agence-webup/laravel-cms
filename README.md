@@ -1,6 +1,30 @@
 # laravel-cms
 Basic CMS Feature for Laravel.
 
+## Usage
+
+1. `composer require webup/laravel-cms`
+2. Install alpinejs `npm install alpinejs`
+3. Add alpine to your master template. For Webup projects, it's:
+    ```html
+    <script src="{{ asset('node_modules/alpinejs/dist/cdn.js') }}"></script>
+    ```
+4. Add cms stacks to your master template.
+    ```html
+    <!-- in <head> -->
+    @stack('cms-css')
+    <!-- at the top of <body> -->
+    @stack('cms-overlay')
+    <!-- at the bottom of <body> -->
+    @stack('cms-js')
+    ```
+5. Use in any page that inherit your template.
+    ```html
+    <x-cms::content key="my.custom.key">
+        Default text for `my.custom.key`.
+    </x-cms::content>
+    ```
+
 ## CMS Entries
 
 Entries are localized, and identified by a key.

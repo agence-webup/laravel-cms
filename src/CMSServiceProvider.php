@@ -5,6 +5,8 @@ namespace Webup\CMS;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
+use Webup\CMS\Http\Livewire\Cms;
 
 class CMSServiceProvider extends ServiceProvider
 {
@@ -12,6 +14,7 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->registerRoutes();
         Blade::componentNamespace('Webup\\CMS\\View\\Components', 'cms');
+        Livewire::component('cms', Cms::class);
 
         $this->publishConfig();
         $this->publishPublic();
@@ -27,7 +30,8 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/cms'),
-        ], 'public');
+        ], 'cms-public');
+
     }
 
     protected function publishConfig()
