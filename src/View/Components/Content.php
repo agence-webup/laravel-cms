@@ -23,7 +23,18 @@ class Content extends Component
             ->where('key', $this->key)
             ->first();
 
-        $this->editable = auth(config('cms.guard'))->check();
+
+        if (!config('cms.guard.enabled', false)) {
+            $this->editable = false;
+            return;
+        }
+
+        $guard = config('cms.guard.name');
+        $this->editable = auth($guard)->check();
+
+        if ($this->editable && config('cms.permission.enabled', false)) {
+            $this->editable = auth($guard)->user()->can(config('cms.permission.name'));
+        }
     }
 
     public function render()
