@@ -1,10 +1,20 @@
 @if ($editable)
-<livewire:cms :slot="$slot->toHtml()"
-              :entry="$entry"
-              :cms-key="$key" />
-@include('cms::components.elements.overlay')
-@include('cms::components.elements.store')
-@include('cms::components.elements.css')
+<div>
+    <textarea name="{{ $key }}"
+              id="{{ $key }}">
+        @if ($entry)
+        {!! $entry->content !!}
+        @else
+        {{ $slot }}
+        @endif
+    </textarea>
+</div>
 @else
-@include('cms::components.elements.readonly')
+<div {{ $attributes }}>
+    @if ($entry)
+    {!! $entry->content !!}
+    @else
+    {{ $slot }}
+    @endif
+</div>
 @endif

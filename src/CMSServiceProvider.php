@@ -5,8 +5,6 @@ namespace Webup\CMS;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Livewire\Livewire;
-use Webup\CMS\Http\Livewire\Cms;
 
 class CMSServiceProvider extends ServiceProvider
 {
@@ -14,24 +12,14 @@ class CMSServiceProvider extends ServiceProvider
     {
         $this->registerRoutes();
         Blade::componentNamespace('Webup\\CMS\\View\\Components', 'cms');
-        Livewire::component('cms', Cms::class);
 
         $this->publishConfig();
-        $this->publishPublic();
         $this->publishMigration();
     }
 
     public function register()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
-    }
-
-    protected function publishPublic()
-    {
-        $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/cms'),
-        ], 'cms-public');
-
     }
 
     protected function publishConfig()
@@ -63,10 +51,15 @@ class CMSServiceProvider extends ServiceProvider
 
     protected function routeConfiguration()
     {
-        return [
+        $res = [
             'prefix' => config('cms.prefix'),
             'as' => config('cms.prefix') . '.',
-            'middleware' => ['web', config('cms.guardMiddleware', 'auth:admin')],
+            'middleware' => ['web'],
         ];
+
+        if (config('cms.guard.enabled')) {
+            $res['middleware'] = ['web', 'auth:' . config('cms.guard.name')];
+        }
+        return $res;
     }
 }
